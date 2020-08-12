@@ -2,46 +2,14 @@ import React from 'react';
 import MenuItem from "../menu-item/menu-item.component";
 
 import './directory.style.scss';
+import SECTIONS_DATA from '../../sections.data';
 
 class Directory extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            sections: [
-                {
-                    id: 1,
-                    title: 'hats',
-                    imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-                    linkUrl: 'hats'
-                },
-                {
-                    id: 2,
-                    title: 'jackets',
-                    imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-                    linkUrl: 'jackets'
-                },
-                {
-                    id: 3,
-                    title: 'sneakers',
-                    imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-                    linkUrl: 'sneakers'
-                },
-                {
-                    id: 4,
-                    title: 'womens wear',
-                    imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-                    linkUrl: 'womens-wear',
-                    size: 'large'
-                },
-                {
-                    id: 5,
-                    title: 'Mens wear',
-                    imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-                    linkUrl: 'mens-wear',
-                    size: 'large'
-                },
-            ]
+            sections: SECTIONS_DATA
         }
     }
 
