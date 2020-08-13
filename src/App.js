@@ -1,58 +1,51 @@
 import React from 'react';
+import {Route, Switch} from 'react-router-dom';
+
 import './App.css';
 
-import Homepage from './modules/homepage/homepage.component';
-import {Route, Switch, Link} from 'react-router-dom';
-const HatsPage = () => (
-    <div>
-        <h1>Hats Page</h1>
-    </div>
-)
+import HomePage from './modules/homepage/homepage.component';
+import ShopPage from './modules/shop/shop.component';
+import Header from './shared/header/header.component';
 
-const AboutPage = () => {
-    return(    
-        <div>
-        <Link to='/products'>Go to Products</Link>
-            <h2>About Page</h2>
-        </div>
-    )
-}
+import AuthPage from './modules/auth/auth.component';
 
+import {auth} from  './firebase/firebase.utils';
 
-const Products = (props) => {
-    console.log(props);
-    return(
-        <div>
-            <button onClick={() => props.history.goBack()}>Go Back</button>
-            <h2>Products Page</h2>
-            <Link to={`${props.match.url}/01`}>First Product</Link>
-            <Link to={`${props.match.url}/special-offer`}>Special Offer</Link>
-            <Link to={`${props.match.url}/13`}>Lucky number 13</Link>
-        </div>
-    )
-}
+class App extends React.Component {
+    constructor() {
+        super();
 
-const ProductDetails = (props) => {
-    console.log(props)
-    return(    
-    <div>
-        <h2>Product ID: {props.match.params.productId}</h2>
-    </div>
-    )
-}
+        this.state = {
+            currentUser: null
+        }
+    }
 
-function App() {
-    return (
-        <div className="wrapper">
-             <Switch>
-                <Route exact path='/' component={Homepage} />
-                <Route exact path='/about' component={AboutPage} />
-                <Route exact path='/products' component={Products} />
-                <Route exact path='/products/:productId' component={ProductDetails} />
-                <Route path='/hats' component={HatsPage} />
-            </Switch>
-        </div>
-    );
+    unsubscribeFromAuth = null;
+
+    componentDidMount() {
+        this.unsubscribeFromAuth = auth.onAuthStateChanged( user => {
+            this.setState({currentUser: user});
+
+            console.log(user);
+        }) 
+    }
+
+    componentWillUnmount() {
+        this.unsubscribeFromAuth();
+    }
+
+    render() {
+        return (
+            <div className="wrapper">
+                <Header currentUser={this.state.currentUser} /> 
+                <Switch>
+                    <Route exact path='/' component={HomePage} />
+                    <Route exact path='/shop' component={ShopPage} />
+                    <Route exact path='/signin' component={AuthPage} />
+                </Switch>
+            </div>
+        );
+    }
 }
 
 export default App;
